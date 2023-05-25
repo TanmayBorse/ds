@@ -1,0 +1,169 @@
+// Server.java
+
+import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.rmi.registry.Registry;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.server.UnicastRemoteObject;
+
+import java.util.ArrayList;
+
+public class Server implements Service{
+	
+	private ArrayList<String> messages = new ArrayList<>();
+	
+	public Server() throws RemoteException{
+		UnicastRemoteObject.exportObject(this,0);
+	}
+	
+	public void receiveMessage(String message) throws RemoteException{
+		System.out.println("Received message : "+ message);
+		messages.add(message);
+	}
+	
+	public static void main(String[] args){
+		try{
+			Server server = new Server();
+			Registry registry = LocateRegistry.createRegistry(1098);
+			Naming.rebind("rmi://localhost/Service", server);
+			System.out.println("Server ready");
+		}
+		catch(Exception e){
+			System.out.println("Server Exception : " + e.toString() );
+			e.printStackTrace();
+		}
+	}
+}
+
+interface Service extends java.rmi.Remote{
+	void receiveMessage(String message) throws RemoteException;
+}
+
+
+// Client.java
+
+import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.Scanner;
+
+public class Client implements Runnable{
+	
+	private Service service;
+	
+	public Client (Service service){
+		this.service = service;
+	}
+	
+	public void run(){
+		Scanner scanner = new Scanner(System.in);
+		
+		while(true){
+			
+			System.out.println("Enter Message ");
+			String message = scanner.nextLine();
+			
+			try{
+				service.receiveMessage(message);
+			}
+			
+			catch(RemoteException e){
+				System.out.println("Client exception : " + e.toString());
+				e.printStackTrace();				
+			}
+		}
+	}
+	public static void main(String[] args){
+					
+		try{
+			Registry registry = LocateRegistry.createRegistry(1098);
+			Service service = (Service)Naming.lookup("rmi://localhost/Service");
+			Client client = new Client(service);
+			Thread thread = new Thread(client);
+			thread.start();
+		}
+		catch(Exception e){
+			System.out.println("Client Exception : " + e.toString() );
+			e.printStackTrace();
+		}	
+	}
+}
+_____________________________________________________________________________________________________________________________________________________________
+DS 3
+
+#include<mpi.h>
+#include<stdio.h>
+#include<stdlib.h>
+#define ARRAY_SIZE 16
+int main(int argc, char** argv){
+	int rank, size;
+	int sum = 0;
+	int array[ARRAY_SIZE];
+	MPI_init(&argc , &argv);
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	MPI_Comm_size(MPI_COMM_WORLD, &size);
+	
+	if(rank == 0){
+		for(int i=0; i<ARRAY_SIZE;i++){
+			array[i] = i+1;
+		}
+	}
+	
+	int subarray_size = ARRAY_SIZE / size;
+	int subarray[subarray_size];
+	MPI_Scatter(array, subarray_size, MPI_INT, subarray, subarray_size, MPI_INT, 0, MPI_COMM_WORLD);
+	
+	int local_sum = 0;
+	for (int i=0;i<subarray_size;i++){
+		local_sum+=subarray[i];
+	}
+	
+	printf("Process %d local sum is %d \n", rank, local_sum);
+	MPI_Reduce(&local_sum, &sum, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
+	if (rank == 0){
+		printf("Sum of the elements is %d \n", sum);
+	}
+	MPI_Finalize();
+	return 0;
+}
+
+_______________________________________________________________________________________________________________________________________________________________
+DS 5
+
+#include <stdio.h>
+#include <conio.h>
+#include <dos.h>
+#include <time.h>
+int main(){
+	int cs=0,pro=0;
+	double run=5;
+	char key='a';
+	time_t t1,t2;
+	printf("press a key(except q)to enter a process into critical section.\n");
+	printf("press q at any time to exit.\n");
+	t1=time(NULL)-5;
+	while(key!='q'){
+		while(!kbhit()){
+			if(cs!=0){
+				t2=time(NULL);
+				if(t2-t1>run){
+					printf("process %d exits the critical section.\n",pro-1);
+					cs=0;
+				}
+			}
+		}
+		key=getch();
+		if(key!='q'){
+			if(cs!=0)
+				printf("error.another process is executing.please wait.\n");
+			else
+				printf("process %d entered the critical section.\n",pro);
+			cs=1;
+			pro++;
+			t1=time(NULL);
+		}
+	}
+}
+
+__________________________________________________________________________________________________________________________________________________________________
