@@ -628,6 +628,8 @@
 	
 	DA 3
 	
+	PIPE SYSTEM CALL 
+	
 	#include<sys/types.h>
 	#include<stdio.h>
 	#include<unistd.h>
@@ -703,7 +705,7 @@
 	}
 	}
 	
-	//------------------------------------------------
+	FILE COPY 
 	
 	#include<stdio.h>
 	#inlclude<stdlib.h>
@@ -762,3 +764,44 @@
 	}
 	
 	// ./<output file name> file1.txt file2.txt
+	
+	
+	ANAGRAM ISOORPHIC 
+	
+	
+	#define MAC_CHAR 256
+	
+	int anagram(char* str1, char* str2){
+	
+	int count[MAX_CHAR] = {0};
+	if(strlen(str1) != strlen(str2)){ return 0;}
+	for(int i = 0; i str1[i] && str2[i]; i++){
+	count[str1[i]]++;
+	count[str2[i]]--;
+	}
+	for(int i = 0; i < MAX_CHAR; i++){
+	if(count[i] != 0) return 0;
+	}
+	return 1;
+	
+	}
+	
+	
+	int isomorphic(char *str1, char str2*){
+	
+	if(strlen(str1) != strlen(str2)){ return 0;}
+	int map1[MAX_CHAR] = {0};
+	int map2[MAX_CHAR] = {0};
+	for(int i = 0; str1[i] && str2[i]; i++){
+	if(map1[(int)str1[i]] == 0 && map2[(int)str2[i]] == 0){
+	map1[(int)str1[i]] = str2[i];
+	map2[(int)str2[i]] = str1[i];
+	}
+	else if(map1[(int)str1[i]] != str2[i] || map2[(int)str2[i]] != str1[i]){
+	return 0;
+	}
+	}
+	return 1;
+	
+	}
+	
