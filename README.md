@@ -1,4 +1,4 @@
-	FCFS RR SJF
+FCFS RR SJF
 	
 	#include <stdio.h>
 	#include<limits.h>
@@ -231,7 +231,7 @@
 	    	return 0;
 	}
 	
-	PRODUCE AND CONSUMER 
+PRODUCE AND CONSUMER 
 	
 	#include <stdio.h>
 	#include <stdlib.h>
@@ -308,7 +308,7 @@
 	// gcc -pthread -o producer_consumer_sem producer_consumer_sem.c
 	// ./producer_consumer_sem
 	
-	READER AND WRITTER
+READER AND WRITTER
 	
 	#include <stdio.h>
 	#include <stdlib.h>
@@ -396,7 +396,7 @@
 	    return 0;
 	}
 	
-	DINING PHILOSOPHER
+DINING PHILOSOPHER
 	
 	#include <stdio.h>
 	#include <stdlib.h>
@@ -484,8 +484,8 @@
 	    }
 	    return 0;
 	}
-	
-	BANKER
+
+BANKER
 	
 	#include <stdio.h>
 	#include <stdbool.h>
@@ -625,10 +625,8 @@
 	    request_resources(process_id, request);
 	    return 0;
 	}
-	
-	DA 3
-	
-	PIPE SYSTEM CALL 
+
+PIPE SYSTEM CALL 
 	
 	#include<sys/types.h>
 	#include<stdio.h>
@@ -667,7 +665,7 @@
 	return 0;
 	}
 	
-	//----------------------------------------
+pipe 2
 	
 	#include<sys/types.h>
 	#include<stdio.h>
@@ -705,7 +703,7 @@
 	}
 	}
 	
-	FILE COPY 
+FILE COPY 
 	
 	#include<stdio.h>
 	#inlclude<stdlib.h>
@@ -766,7 +764,7 @@
 	// ./<output file name> file1.txt file2.txt
 	
 	
-	ANAGRAM ISOORPHIC 
+ANAGRAM ISOORPHIC 
 	
 	
 	#define MAC_CHAR 256
